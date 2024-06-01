@@ -87,7 +87,57 @@ LIMIT 10;
 -- En la tabla client, de todos los distritos con un district_id menor que 10, 
 -- ¿cuántos clientes hay de cada district_id? Muestra los resultados ordenados por district_id en orden ascendente.
 SHOW COLUMNS FROM client;
-SELECT 
+SELECT district_id, COUNT(*) AS num_clients FROM client
+WHERE district_id < 10
+GROUP BY district_id
+ORDER BY district_id ASC;
+
+-- CONSULTA 14
+-- En la tabla card, ¿cuántas tarjetas existen para cada type? Ordena el resultado comenzando con el type más frecuente.
+SHOW COLUMNS FROM card;
+SELECT type, COUNT(*) AS num_card FROM card
+GROUP BY type
+ORDER BY num_card DESC;
+
+-- CONSULTA 15
+-- Using the loan table, print the top 10 account_ids based on the sum of all of their loan amounts.
+SHOW COLUMNS FROM loan;
+SELECT account_id, SUM(amount) AS total FROM loan
+GROUP BY account_id
+ORDER BY total DESC
+LIMIT 10;
+
+-- CONSULTA 16
+-- In the loan table, retrieve the number of loans issued for each day, before (excl) 930907, ordered by date in descending order.
+SHOW COLUMNS FROM loan;
+SELECT date, COUNT(loan_id) AS total FROM loan
+WHERE date < 930907
+GROUP BY date
+ORDER BY date DESC;
+
+-- CONSULTA 17
+-- In the loan table, for each day in December 1997, count the number of loans issued for each unique loan duration, 
+-- ordered by date and duration, both in ascending order. You can ignore days without any loans in your output.
+SHOW COLUMNS FROM loan;
+SELECT date, duration, COUNT(*) AS total_loans 
+FROM loan
+WHERE date BETWEEN 971201 AND 971231
+GROUP BY date, duration
+ORDER BY date, duration ASC;
+
+-- CONSULTA 18
+-- In the trans table, for account_id 396, sum the amount of transactions for each type (VYDAJ = Outgoing, PRIJEM = Incoming). 
+-- Your output should have the account_id, the type and the sum of amount, named as total_amount. Sort alphabetically by type.
+SHOW COLUMNS FROM trans;
+SELECT account_id, type, SUM(amount) AS total_amount FROM trans
+WHERE account_id = 396 AND type IN ('VYDAJ', 'PRIJEM')
+GROUP BY type
+ORDER BY type ASC;
+
+
+
+
+
 
 
 
